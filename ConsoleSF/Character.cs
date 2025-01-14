@@ -42,13 +42,16 @@ public class Character
     public void Attack(Character target)
     {
         int damage = Strength;
+        string kritZprava = "udelil zasah";
         if (RandomGenerator.GetFiftyFifty() > 0)
         {
             damage *= 2;
+            kritZprava = "udelil kriticky zasah";
         }
 
         damage += RandomGenerator.GetRandomPosture();
         target.Defend(damage);
+        zprava += $"Utocici {Name} {kritZprava} za {damage}dmg oponentovi {target.Name}\n";
     }
 
     /// <summary>
@@ -59,10 +62,15 @@ public class Character
     private void Defend(int damage)
     {
         int defense = Defense + RandomGenerator.GetRandomPosture();
-        damage -= defense;
-        if (damage > 0)
+        int damageTaken = damage - defense;
+        if (damageTaken > 0)
         {
-            Health -= damage;
+            Health -= damageTaken;
+            zprava += $"{Name} byl pod utok v hodnote {damage}dmg ale po castecnem vykriti utoku obrdrzel pouze {damageTaken}, a zbylo mu {Health}HP\n";
+        }
+        else
+        {
+            zprava += $"Oponent {Name} neprobil obranu!\n";
         }
     }
 
@@ -71,9 +79,13 @@ public class Character
         return Health > 0;
     }
 
+    public string GetZprava()
+    {
+        return zprava;
+    }
 
     public override string ToString()
     {
-        return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Strength, Defense);
+        return string.Format("{0} - {1} HP, {2} Strength, {3} Defense\n", Name, Health, Strength, Defense);
     }
 }
