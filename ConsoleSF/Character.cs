@@ -2,15 +2,13 @@
 
 public class Character
 {
-    
-    // MessageManager messageManager = new MessageManager();
-    
+    public readonly MessageManager _messageManager;
     string zprava = "";
-    
+
     /// <summary>
     /// Gets or sets the name of the character.
     /// </summary>
-    string Name { get; set; }
+    public string Name { get; private set; }
 
     /// <summary>
     /// Gets or sets the health of the character.
@@ -33,14 +31,15 @@ public class Character
     /// Represents the character's ability to reduce damage taken from attacks.
     /// </summary>
     int Defense { get; set; }
-    
-    public Character(string name, int health, int strength, int defense)
+
+    public Character(string name, int health, int strength, int defense, MessageManager messageManager)
     {
         Name = name;
         Health = health;
         MaxHealth = health;
         Strength = strength;
         Defense = defense;
+        _messageManager = messageManager;
     }
 
     /// <summary>
@@ -57,9 +56,9 @@ public class Character
         }
 
         damage += RandomGenerator.GetRandomPosture();
-        target.Defend(damage);
         zprava = $"{Name} attacking {target.Name} for {damage} damage!";
-        MessageManager.PrintMessageAndAddToList(zprava);
+        target.Defend(damage);
+        _messageManager.PrintMessageAndAddToList(zprava);
     }
 
     /// <summary>
@@ -69,19 +68,22 @@ public class Character
     /// <param name="damage">The amount of damage inflicted by the attacker.</param>
     private void Defend(int damage)
     {
+        int incomingDamage = damage;
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;
         if (damageTaken <= 0)
         {
             damageTaken = 0;
+            zprava = $"{Name} block the attack!";
+            _messageManager.PrintMessageAndAddToList(zprava);
         }
-        
-        zprava = $"{Name} defending against {damageTaken} damage!";
+
+        zprava = $"{Name} defending against {incomingDamage} damage!";
         if (damageTaken > 0)
         {
             if (isAlive())
             {
-            zprava += $" and taking {damageTaken} damage!";
+                zprava += $" and taking {damageTaken} damage!";
                 Health -= damageTaken;
                 if (Health < 0)
                 {
@@ -89,7 +91,8 @@ public class Character
                     zprava += $" But that was too much for {Name} and he is already dead!";
                 }
             }
-            MessageManager.PrintMessageAndAddToList(zprava);
+
+            _messageManager.PrintMessageAndAddToList(zprava);
         }
     }
 
@@ -109,7 +112,7 @@ public class Character
     /// <returns>A string representing the character's health bar, including the visual health status or a "[DEAD]" message if the character is not alive.</returns>
     public string HealthBar()
     {
-        string bar = "[";
+        string bar = $"{Name}: [";
         int countOfBar = 20;
         if (isAlive())
         {
@@ -123,7 +126,7 @@ public class Character
         }
         else
         {
-            bar = "[DEAD]";
+            bar = $"{Name}: [DEAD]";
         }
 
         return bar;
