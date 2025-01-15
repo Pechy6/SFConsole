@@ -13,19 +13,21 @@ using ConsoleSF;
 // inicializace 
 MessageManager sharedMessageManager = new MessageManager();
 Character warrior = new Character("Warrior", 100, 20, 30, sharedMessageManager);
-Character mage = new Character("Mage", 100, 35, 10, sharedMessageManager);
+Character mage = new Mage("Mage", 100, 20, 10, sharedMessageManager, 50, 50);
+
+Mage mageClass = (Mage)mage;
 
 // hra 
 Console.WriteLine("Hello, Arena\n\n\n");
 while (warrior.isAlive() && mage.isAlive())
 {
+    Console.WriteLine(mage.HealthBar() + "\n");
+    Console.WriteLine((mageClass.ManaBar()) + "\n");
     mage.Attack(warrior);
     Console.WriteLine(warrior.HealthBar() + "\n");
     warrior.Attack(mage);
     Console.WriteLine(mage.HealthBar() + "\n");
-    Console.WriteLine(!warrior.isAlive()
-        ? $"{mage.Name} win againts {warrior.Name}!"
-        : $"{warrior.Name} win againts {mage.Name}!");
+    Console.WriteLine((mageClass.ManaBar()) + "\n");
 }
 
 Console.WriteLine("\n");
