@@ -1,9 +1,9 @@
 ﻿namespace ConsoleSF;
 
-public class Character(string name, int health, int attackDamage, int defense, MessageManager messageManager)
+public class Character(string name, int health, int attackDamage, int defense)
 {
-    public readonly MessageManager _messageManager = messageManager;
-    string zprava = "";
+    // public readonly MessageManager _messageManager = messageManager;
+    // string zprava = "";
 
     /// <summary>
     /// Gets or sets the name of the character.
@@ -46,8 +46,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
         }
 
         damage += RandomGenerator.GetRandomPosture();
-        zprava = $"{Name} attacking {target.Name} for {damage} damage!";
-        _messageManager.PrintMessageAndAddToList(zprava);
+        Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
         target.Defend(damage, false);
     }
 
@@ -65,25 +64,23 @@ public class Character(string name, int health, int attackDamage, int defense, M
         if (damageTaken <= 0)
         {
             damageTaken = 0;
-            zprava = $"{Name} block the attack!";
-            _messageManager.PrintMessageAndAddToList(zprava);
+            Console.WriteLine($"Message about defend:\n{Name} block the attack!");
         }
 
-        zprava = $"{Name} defending against {incomingDamage} damage but cover {defense} damage";
+        Console.WriteLine($"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
         if (damageTaken > 0)
         {
             if (isAlive())
             {
-                zprava += $" and taking {damageTaken} damage!";
+                Console.Write($" and taking {damageTaken} damage!");
                 Health -= damageTaken;
                 if (Health < 0)
                 {
                     Health = 0;
-                    zprava += $" But that was too much for {Name} and he is already dead!";
+                    Console.WriteLine($" But that was too much for {Name} and he is already dead!");
                 }
             }
 
-            _messageManager.PrintMessageAndAddToList(zprava);
         }
     }
 

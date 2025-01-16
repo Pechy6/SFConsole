@@ -5,8 +5,16 @@
 // opravit text aby mel spravne poradi 
 // priradit ridici tridu souboje at mame program.cs hezky cisty
 
-// ve tride Mage zajistit aby se pri stesti jeho mana nesnizila ale zustala mu na dalsi utok 
-// ve tride Warrior zjistit kde je problem ze blokuje veskere utoky od maga 
+// vyresit problem v dedicich tridach se zpravami Mage/ Warrior
+// Message about attack
+//     Mage attacking Warrior for 37 damage!
+// Message about defend:
+// Warrior defending against 37 damage but cover 35 damage and taking 2 damage!
+// Message about defend:
+// Warrior block all damage by shield!
+//     Warrior: Health [########]
+
+
 
 
 
@@ -14,8 +22,8 @@ using System.Threading.Channels;
 using ConsoleSF;
 // inicializace 
 MessageManager sharedMessageManager = new MessageManager();
-Character warrior = new Warrior("Warrior", 100, 20, 30, sharedMessageManager, 25, 50);
-Character mage = new Mage("Mage", 100, 20, 10, sharedMessageManager, 50, 50);
+Character warrior = new Warrior("Warrior", 100, 20, 30);
+Character mage = new Mage("Mage", 100, 25, 10, 50, 50);
 
 // explicitni pretipovani 
 Mage mageClass = (Mage)mage;
@@ -24,8 +32,6 @@ Mage mageClass = (Mage)mage;
 Console.WriteLine("Hello, Arena\n\n\n");
 while (warrior.isAlive() && mage.isAlive())
 {
-    Console.WriteLine(mage.HealthBar() + "\n");
-    Console.WriteLine((mageClass.ManaBar()) + "\n");
     mage.Attack(warrior);
     Console.WriteLine(warrior.HealthBar() + "\n");
     warrior.Attack(mage);
@@ -39,4 +45,3 @@ Console.WriteLine(warrior.HealthBar() + "\n");
 Console.WriteLine(mage);
 Console.WriteLine(mage.HealthBar() + "\n");
 Console.WriteLine("\n\n\n");
-Console.Write(warrior._messageManager.PrintRecordedMessages());

@@ -1,15 +1,14 @@
 ﻿namespace ConsoleSF;
 
-public class Warrior: Character
+public class Warrior : Character
 {
-    int Shield {get; set;}
-    int Posture {get; set;}
+    int Shield { get; set; }
+    int Posture { get; set; }
 
-    public Warrior(string name, int health, int attackDamage, int defense, MessageManager messageManager, int shield,
-        int posture) : base(name, health, attackDamage, defense, messageManager)
+    public Warrior(string name, int health, int attackDamage, int defense
+    ) : base(name, health, attackDamage, defense)
     {
-        Shield = shield;
-        Posture = posture;
+        // sem vlozim vnitrni logiku 
     }
 
     public override void Defend(int damage, bool isMageSpecialAttack)
@@ -21,7 +20,12 @@ public class Warrior: Character
             if (RandomGenerator.GetResetAttackAndBlockAttack() == 1)
             {
                 damage = 0;
-                Console.WriteLine($"{Name} block all damage by shield!");
+                base.Defend(damage, false);
+                Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
+            }
+            else
+            {
+                base.Defend(damage, false);
             }
         }
         else
@@ -29,5 +33,6 @@ public class Warrior: Character
             Health -= damage;
             Console.WriteLine($"{Name} cant cover from mage special attack and take {damage} damage!");
         }
+
     }
 }

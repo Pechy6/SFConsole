@@ -2,7 +2,7 @@
 
 public class Mage : Character
 {
-
+    
     /// <summary>
     /// Represents the current mana level of the Mage.
     /// Mana is consumed or regenerated based on the Mage's actions,
@@ -25,9 +25,8 @@ public class Mage : Character
     /// </value>
     int MaxMana { get; set; }
 
-    public Mage(string name, int health, int attackDamage, int defense, MessageManager messageManager, int mana,
-        int maxMana)
-        : base(name, health, attackDamage, defense, messageManager)
+    public Mage(string name, int health, int attackDamage, int defense, int mana, int maxMana)
+        : base(name, health, attackDamage, defense)
     {
         Mana = mana;
         MaxMana = maxMana;
@@ -45,20 +44,24 @@ public class Mage : Character
         if (Mana >= MaxMana)
         {
             int specialAttack = AttackDamage * 2;
+            Mana = 0;
             if (RandomGenerator.GetFiftyFifty() > 0)
             {
                 specialAttack += AttackDamage / 3;
-                if (RandomGenerator.GetResetAttackAndBlockAttack() == 0)
+                if (RandomGenerator.GetResetAttackAndBlockAttack() == 1)
                 {
-                    Console.WriteLine($"{Name} special attack was really powerful! {Name} has full mana!");
+                    Console.WriteLine("But his attack was that powerful so he dont feel about lose any mana");
                     Mana = MaxMana;
                 }
+                else
+                    Mana = 0;
             }
-            Console.WriteLine($"{Name} attacking with special attack for {specialAttack}");
-            Mana = 0;
+
+            Console.WriteLine($"Message about attack:\n{Name} attacking with special attack for {specialAttack}");
             target.Defend(specialAttack, true);
         }
-        base.Attack(target);
+        else
+            base.Attack(target);
     }
 
     /// <summary>
@@ -78,6 +81,7 @@ public class Mage : Character
                 bar += "#";
             }
         }
+
         bar += "]";
         return bar;
     }
