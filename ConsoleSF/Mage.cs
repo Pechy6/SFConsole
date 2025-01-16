@@ -58,7 +58,7 @@ public class Mage : Character
             }
 
             Console.WriteLine($"Message about attack:\n{Name} attacking with special attack for {specialAttack}");
-            target.Defend(specialAttack, true);
+            target.Defend(specialAttack, true, true);
         }
         else
             base.Attack(target);

@@ -11,28 +11,24 @@ public class Warrior : Character
         // sem vlozim vnitrni logiku 
     }
 
-    public override void Defend(int damage, bool isMageSpecialAttack)
+    public override void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
     {
         // if isnt special attack from mage 
-        if (!isMageSpecialAttack)
-        {
-            // chance to block all damage by shield
-            if (RandomGenerator.GetResetAttackAndBlockAttack() == 1)
-            {
-                damage = 0;
-                base.Defend(damage, false);
-                Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
-            }
-            else
-            {
-                base.Defend(damage, false);
-            }
-        }
-        else
+        if (isMageSpecialAttack)
         {
             Health -= damage;
             Console.WriteLine($"{Name} cant cover from mage special attack and take {damage} damage!");
         }
-
+        else
+        {
+            if (RandomGenerator.GetResetAttackAndBlockAttack() == 1 && damage > 0)
+            {
+                damage = 0;
+                base.Defend(damage, false, false);
+                Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
+            }
+            // tady je nekde problem, takze zde pokracovat !
+            base.Defend(damage, false, true);
+        }
     }
 }

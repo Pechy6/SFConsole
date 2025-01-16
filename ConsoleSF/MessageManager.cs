@@ -14,7 +14,7 @@ public class MessageManager
     {
         Console.WriteLine("Complete record of messages:\n");
         var stringBuilder = new StringBuilder();
-        foreach (string message in messages)
+        foreach (var message in messages)
         {
             stringBuilder.AppendLine(message);
         }

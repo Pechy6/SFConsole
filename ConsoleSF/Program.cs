@@ -7,12 +7,13 @@
 
 // vyresit problem v dedicich tridach se zpravami Mage/ Warrior
 // Message about attack
-//     Mage attacking Warrior for 37 damage!
-// Message about defend:
-// Warrior defending against 37 damage but cover 35 damage and taking 2 damage!
+//     Mage attacking Warrior for 35 damage!
 // Message about defend:
 // Warrior block all damage by shield!
-//     Warrior: Health [########]
+//     Message about defend:
+// Warrior block the attack!
+//     Warrior: Health [##########]
+
 
 
 

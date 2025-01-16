@@ -47,7 +47,7 @@ public class Character(string name, int health, int attackDamage, int defense)
 
         damage += RandomGenerator.GetRandomPosture();
         Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
-        target.Defend(damage, false);
+        target.Defend(damage, false, true);
     }
 
     /// <summary>
@@ -55,32 +55,36 @@ public class Character(string name, int health, int attackDamage, int defense)
     /// attribute and random factors, reduces the incoming damage, and adjusts health accordingly.
     /// </summary>
     /// <param name="damage">The amount of damage inflicted by the attacker.</param>
-    public virtual void Defend(int damage, bool isMageSpecialAttack)
+    public virtual void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
     {
-        isMageSpecialAttack = false;
         int incomingDamage = damage;
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;
-        if (damageTaken <= 0)
+        if (doubleProtection)
         {
-            damageTaken = 0;
-            Console.WriteLine($"Message about defend:\n{Name} block the attack!");
-        }
-
-        Console.WriteLine($"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
-        if (damageTaken > 0)
-        {
-            if (isAlive())
+            if (damageTaken <= 0)
             {
-                Console.Write($" and taking {damageTaken} damage!");
-                Health -= damageTaken;
-                if (Health < 0)
+                damageTaken = 0;
+                Console.WriteLine($"Message about defend:\n{Name} block the attack!");
+            }
+            else
+            {
+                if (damageTaken > 0)
                 {
-                    Health = 0;
-                    Console.WriteLine($" But that was too much for {Name} and he is already dead!");
+                    Console.WriteLine(
+                        $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
+                    if (isAlive())
+                    {
+                        Console.Write($"and taking {damageTaken} damage!");
+                        Health -= damageTaken;
+                        if (Health < 0)
+                        {
+                            Health = 0;
+                            Console.WriteLine($" But that was too much for {Name} and he is already dead!");
+                        }
+                    }
                 }
             }
-
         }
     }
 
