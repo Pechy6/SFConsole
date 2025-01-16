@@ -48,7 +48,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
         damage += RandomGenerator.GetRandomPosture();
         zprava = $"{Name} attacking {target.Name} for {damage} damage!";
         _messageManager.PrintMessageAndAddToList(zprava);
-        target.Defend(damage);
+        target.Defend(damage, false);
     }
 
     /// <summary>
@@ -56,8 +56,9 @@ public class Character(string name, int health, int attackDamage, int defense, M
     /// attribute and random factors, reduces the incoming damage, and adjusts health accordingly.
     /// </summary>
     /// <param name="damage">The amount of damage inflicted by the attacker.</param>
-    protected internal void Defend(int damage)
+    public virtual void Defend(int damage, bool isMageSpecialAttack)
     {
+        isMageSpecialAttack = false;
         int incomingDamage = damage;
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;

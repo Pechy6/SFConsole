@@ -2,8 +2,27 @@
 
 public class Mage : Character
 {
-    MessageManager _messageManager;
+
+    /// <summary>
+    /// Represents the current mana level of the Mage.
+    /// Mana is consumed or regenerated based on the Mage's actions,
+    /// such as performing special attacks or other mana-related abilities.
+    /// </summary>
+    /// <value>
+    /// An integer representing the Mage's current mana level.
+    /// Values range between 0 and MaxMana, inclusive.
+    /// </value>
     int Mana { get; set; }
+
+    /// <summary>
+    /// Represents the maximum mana capacity of the Mage.
+    /// This value determines the upper limit of mana the Mage can hold at any time,
+    /// influencing abilities and the triggering of special attacks.
+    /// </summary>
+    /// <value>
+    /// An integer representing the Mage's maximum mana.
+    /// This value is fixed upon initialization and is used to constrain the Mana property.
+    /// </value>
     int MaxMana { get; set; }
 
     public Mage(string name, int health, int attackDamage, int defense, MessageManager messageManager, int mana,
@@ -14,6 +33,12 @@ public class Mage : Character
         MaxMana = maxMana;
     }
 
+    /// <summary>
+    /// Performs an attack on a target character. Increases mana with each attack, and when the mage's mana
+    /// reaches or exceeds its maximum value, a special attack is triggered. The special attack
+    /// deals a higher damage amount based on the mage's attack damage.
+    /// </summary>
+    /// <param name="target">The target character to attack.</param>
     public override void Attack(Character target)
     {
         Mana += 10;
@@ -23,7 +48,7 @@ public class Mage : Character
             if (RandomGenerator.GetFiftyFifty() > 0)
             {
                 specialAttack += AttackDamage / 3;
-                if (RandomGenerator.GetResetAttack() == 0)
+                if (RandomGenerator.GetResetAttackAndBlockAttack() == 0)
                 {
                     Console.WriteLine($"{Name} special attack was really powerful! {Name} has full mana!");
                     Mana = MaxMana;
@@ -31,11 +56,16 @@ public class Mage : Character
             }
             Console.WriteLine($"{Name} attacking with special attack for {specialAttack}");
             Mana = 0;
-            target.Defend(specialAttack);
+            target.Defend(specialAttack, true);
         }
         base.Attack(target);
     }
 
+    /// <summary>
+    /// Generates a graphical representation of the mage's current mana as a progress bar.
+    /// Each segment of the bar represents a portion of the mage's maximum mana.
+    /// </summary>
+    /// <returns>A string displaying the mana bar with filled segments proportional to the mage's current mana.</returns>
     public string ManaBar()
     {
         string bar = $"{Name}: Mana [";

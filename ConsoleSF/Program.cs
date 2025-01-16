@@ -5,16 +5,19 @@
 // opravit text aby mel spravne poradi 
 // priradit ridici tridu souboje at mame program.cs hezky cisty
 
-// poupravit utok aby se prohodil s obranou pri volani, jelikoz mi to prvne vyvola zpravu z obrany. 
+// ve tride Mage zajistit aby se pri stesti jeho mana nesnizila ale zustala mu na dalsi utok 
+// ve tride Warrior zjistit kde je problem ze blokuje veskere utoky od maga 
+
 
 
 using System.Threading.Channels;
 using ConsoleSF;
 // inicializace 
 MessageManager sharedMessageManager = new MessageManager();
-Character warrior = new Character("Warrior", 100, 20, 30, sharedMessageManager);
+Character warrior = new Warrior("Warrior", 100, 20, 30, sharedMessageManager, 25, 50);
 Character mage = new Mage("Mage", 100, 20, 10, sharedMessageManager, 50, 50);
 
+// explicitni pretipovani 
 Mage mageClass = (Mage)mage;
 
 // hra 

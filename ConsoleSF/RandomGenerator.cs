@@ -14,7 +14,7 @@ public static class RandomGenerator
         return random.Next(0, 11);
     }
 
-    public static int GetResetAttack()
+    public static int GetResetAttackAndBlockAttack()
     {
         return random.Next(0, 4);
     }
