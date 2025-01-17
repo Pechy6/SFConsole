@@ -1,23 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 // Implementace zpravy pres novou tridu a list
-// pridani trid Warrior, Mage, Archer a Assasin
-// opravit text aby mel spravne poradi 
+// pridani trid Warrior*, Mage*, Archer a Assasin
+// archer ma moznost vyhnuti pokud je to fyzicky utok a zaroven ignoruje obranu postoje 
+// mozna opravit pokud se magovi dostane stesti na 100% manu tak by to melo byt napsano az po utoku 
 // priradit ridici tridu souboje at mame program.cs hezky cisty
-
-// vyresit problem v dedicich tridach se zpravami Mage/ Warrior
-// Message about attack
-//     Mage attacking Warrior for 35 damage!
-// Message about defend:
-// Warrior block all damage by shield!
-//     Message about defend:
-// Warrior block the attack!
-//     Warrior: Health [##########]
-
-
-
-
-
 
 using System.Threading.Channels;
 using ConsoleSF;
@@ -35,7 +22,7 @@ while (warrior.isAlive() && mage.isAlive())
 {
     mage.Attack(warrior);
     Console.WriteLine(warrior.HealthBar() + "\n");
-    warrior.Attack(mage);
+    // warrior.Attack(mage);
     Console.WriteLine(mage.HealthBar() + "\n");
     Console.WriteLine((mageClass.ManaBar()) + "\n");
 }

@@ -28,7 +28,10 @@ public class Warrior : Character
                 Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
             }
             // tady je nekde problem, takze zde pokracovat !
-            base.Defend(damage, false, true);
+            else
+            {
+                base.Defend(damage, false, true);
+            }
         }
     }
 }

@@ -39,12 +39,7 @@ public class Character(string name, int health, int attackDamage, int defense)
     /// <param name="target">The target character to attack.</param>
     public virtual void Attack(Character target)
     {
-        int damage = AttackDamage;
-        if (RandomGenerator.GetFiftyFifty() > 0)
-        {
-            damage += AttackDamage / 2;
-        }
-
+        int damage = NormalizeAttack();
         damage += RandomGenerator.GetRandomPosture();
         Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
         target.Defend(damage, false, true);
@@ -60,31 +55,34 @@ public class Character(string name, int health, int attackDamage, int defense)
         int incomingDamage = damage;
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;
-        if (doubleProtection)
+
+        if (!doubleProtection)
         {
-            if (damageTaken <= 0)
-            {
-                damageTaken = 0;
-                Console.WriteLine($"Message about defend:\n{Name} block the attack!");
-            }
-            else
-            {
-                if (damageTaken > 0)
-                {
-                    Console.WriteLine(
-                        $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
-                    if (isAlive())
-                    {
-                        Console.Write($"and taking {damageTaken} damage!");
-                        Health -= damageTaken;
-                        if (Health < 0)
-                        {
-                            Health = 0;
-                            Console.WriteLine($" But that was too much for {Name} and he is already dead!");
-                        }
-                    }
-                }
-            }
+            return; // Pokud není aktivní dvojitá ochrana, logiku přeskočíme
+        }
+
+        if (damageTaken <= 0)
+        {
+            Console.WriteLine($"Message about defend:\n{Name} block the attack!");
+            return;
+        }
+
+        Console.WriteLine(
+            $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
+
+        if (!isAlive())
+        {
+            return; // Pokud postava není naživu, ostatní logiku přeskočíme
+        }
+
+        Console.Write($"and taking {damageTaken} damage!");
+
+        Health -= damageTaken;
+
+        if (Health <= 0)
+        {
+            Health = 0;
+            Console.WriteLine($" But that was too much for {Name} and he is already dead!");
         }
     }
 
@@ -124,6 +122,15 @@ public class Character(string name, int health, int attackDamage, int defense)
         return bar;
     }
 
+    protected int NormalizeAttack()
+    {
+        int damage = AttackDamage;
+        // pokud je cislo vyssi nez nula tak se vyvola kriticky attack s pridanym bonusem
+        if (RandomGenerator.GetFiftyFifty() > 0)
+            damage += AttackDamage / 2;
+        return damage;
+    }
+    
     public override string ToString()
     {
         return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Attack, Defense);
