@@ -10,7 +10,7 @@ using System.Threading.Channels;
 using ConsoleSF;
 // inicializace 
 MessageManager sharedMessageManager = new MessageManager();
-Character warrior = new Warrior("Warrior", 100, 20, 30);
+Character archer = new Archer("Archer", 200, 20, 30);
 Character mage = new Mage("Mage", 100, 25, 10, 50, 50);
 
 // explicitni pretipovani 
@@ -18,18 +18,19 @@ Mage mageClass = (Mage)mage;
 
 // hra 
 Console.WriteLine("Hello, Arena\n\n\n");
-while (warrior.isAlive() && mage.isAlive())
+while (archer.isAlive() && mage.isAlive())
 {
-    mage.Attack(warrior);
-    Console.WriteLine(warrior.HealthBar() + "\n");
+    // archer.Attack(mage);
+    mage.Attack(archer);
+    Console.WriteLine(archer.HealthBar() + "\n");
     // warrior.Attack(mage);
     Console.WriteLine(mage.HealthBar() + "\n");
     Console.WriteLine((mageClass.ManaBar()) + "\n");
 }
 
 Console.WriteLine("\n");
-Console.WriteLine(warrior);
-Console.WriteLine(warrior.HealthBar() + "\n");
+Console.WriteLine(archer);
+Console.WriteLine(archer.HealthBar() + "\n");
 Console.WriteLine(mage);
 Console.WriteLine(mage.HealthBar() + "\n");
 Console.WriteLine("\n\n\n");

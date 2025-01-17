@@ -18,6 +18,7 @@ public class Warrior : Character
         {
             Health -= damage;
             Console.WriteLine($"{Name} cant cover from mage special attack and take {damage} damage!");
+            LastHit();
         }
         else
         {
@@ -27,7 +28,6 @@ public class Warrior : Character
                 base.Defend(damage, false, false);
                 Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
             }
-            // tady je nekde problem, takze zde pokracovat !
             else
             {
                 base.Defend(damage, false, true);

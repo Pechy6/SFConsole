@@ -78,14 +78,18 @@ public class Character(string name, int health, int attackDamage, int defense)
         Console.Write($"and taking {damageTaken} damage!");
 
         Health -= damageTaken;
+        LastHit();
+       
+    }
 
+    protected void LastHit()
+    {
         if (Health <= 0)
         {
             Health = 0;
             Console.WriteLine($" But that was too much for {Name} and he is already dead!");
         }
     }
-
     /// <summary>
     /// Determines whether the character is alive based on its current health.
     /// </summary>
