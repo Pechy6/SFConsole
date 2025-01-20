@@ -10,7 +10,7 @@ using System.Threading.Channels;
 using ConsoleSF;
 // inicializace 
 MessageManager sharedMessageManager = new MessageManager();
-Character archer = new Archer("Archer", 200, 20, 30);
+Character archer = new Archer("Archer", 100, 20, 30);
 Character mage = new Mage("Mage", 100, 25, 10, 50, 50);
 
 // explicitni pretipovani 

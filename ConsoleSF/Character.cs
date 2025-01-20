@@ -56,9 +56,32 @@ public class Character(string name, int health, int attackDamage, int defense)
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;
 
+        // specialni utok kteremu se nelze vyhnout a ignoruje kompletni ochranu 
+        HandleDamageCalculation(isMageSpecialAttack, doubleProtection, incomingDamage, damageTaken, defense);
+    }
+
+    /// <summary>
+    /// Handles the calculation of damage during a character defense event. It considers special attack behavior,
+    /// double protection status, incoming damage, damage taken, and character defense to determine the final outcome of the attack.
+    /// Updates the character's health and processes final hit logic if necessary.
+    /// </summary>
+    /// <param name="isMageSpecialAttack">Indicates whether the incoming attack is a mage's special attack that cannot be defended against.</param>
+    /// <param name="doubleProtection">Indicates whether the character has double protection enabled for the defense.</param>
+    /// <param name="incomingDamage">The total damage coming from the attacker before any defense calculations.</param>
+    /// <param name="damageTaken">The calculated damage to be taken by the character after accounting for defense.</param>
+    /// <param name="defense">The defense rating of the character, including any random posture modifiers, used to mitigate incoming damage.</param>
+    protected void HandleDamageCalculation(bool isMageSpecialAttack, bool doubleProtection, int incomingDamage,
+        int damageTaken, int defense)
+    {
+        if (isMageSpecialAttack)
+        {
+            SpecialAttack(incomingDamage);
+            return;
+        }
+        
         if (!doubleProtection)
         {
-            return; // Pokud není aktivní dvojitá ochrana, logiku přeskočíme
+            return;
         }
 
         if (damageTaken <= 0)
@@ -68,20 +91,21 @@ public class Character(string name, int health, int attackDamage, int defense)
         }
 
         Console.WriteLine(
-            $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage");
+            $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
 
         if (!isAlive())
         {
-            return; // Pokud postava není naživu, ostatní logiku přeskočíme
+            return;
         }
-
-        Console.Write($"and taking {damageTaken} damage!");
 
         Health -= damageTaken;
         LastHit();
-       
     }
 
+    /// <summary>
+    /// Updates the character's health to zero if it has dropped to or below zero,
+    /// and outputs a message indicating that the character has died.
+    /// </summary>
     protected void LastHit()
     {
         if (Health <= 0)
@@ -90,6 +114,7 @@ public class Character(string name, int health, int attackDamage, int defense)
             Console.WriteLine($" But that was too much for {Name} and he is already dead!");
         }
     }
+    
     /// <summary>
     /// Determines whether the character is alive based on its current health.
     /// </summary>
@@ -126,6 +151,11 @@ public class Character(string name, int health, int attackDamage, int defense)
         return bar;
     }
 
+    /// <summary>
+    /// Calculates and returns the normalized attack damage based on the character's attack damage,
+    /// potentially applying a critical attack bonus if a random condition is met.
+    /// </summary>
+    /// <returns>The normalized attack damage value.</returns>
     protected int NormalizeAttack()
     {
         int damage = AttackDamage;
@@ -133,6 +163,16 @@ public class Character(string name, int health, int attackDamage, int defense)
         if (RandomGenerator.GetFiftyFifty() > 0)
             damage += AttackDamage / 2;
         return damage;
+    }
+
+    /// <summary>
+    /// Executes a special attack that ignores all defenses and directly reduces the character's health.
+    /// </summary>
+    /// <param name="incomingDamage">The amount of damage inflicted that cannot be blocked or mitigated.</param>
+    protected void SpecialAttack(int incomingDamage)
+    {
+        Health -= incomingDamage;
+            Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
     
     public override string ToString()

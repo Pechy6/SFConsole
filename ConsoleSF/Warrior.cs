@@ -13,25 +13,22 @@ public class Warrior : Character
 
     public override void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
     {
-        // if isnt special attack from mage 
         if (isMageSpecialAttack)
         {
-            Health -= damage;
-            Console.WriteLine($"{Name} cant cover from mage special attack and take {damage} damage!");
-            LastHit();
+            SpecialAttack(damage);
+            return;
+        }
+
+        if (RandomGenerator.GetResetAttackAndBlockAttack() == 1 && damage > 0)
+        {
+            damage = 0;
+            base.Defend(damage, false, false);
+            Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
+            return;
         }
         else
         {
-            if (RandomGenerator.GetResetAttackAndBlockAttack() == 1 && damage > 0)
-            {
-                damage = 0;
-                base.Defend(damage, false, false);
-                Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
-            }
-            else
-            {
-                base.Defend(damage, false, true);
-            }
+            base.Defend(damage, false, true);
         }
     }
 }

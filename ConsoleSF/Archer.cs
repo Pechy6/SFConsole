@@ -20,13 +20,15 @@ public class Archer : Character
 
     public override void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
     {
-        if (isAlive())
+        int damageTaken = damage - Defense;
+        if (RandomGenerator.GetFiftyFifty() == 0)
         {
-            int incomingDamage = damage;
-            int damageTaken = Defense - incomingDamage;
-            Health -= damageTaken;
-            LastHit();
-            Console.WriteLine($"{Name} getting hit for {incomingDamage} damage and take {damageTaken} damage!");
+            HandleDamageCalculation(isMageSpecialAttack, doubleProtection, damage, damageTaken, Defense);
+        }
+        else
+        {
+            damageTaken = 0;
+            Console.WriteLine($"{Name} avoid attack so his health is not affected");
         }
     }
 }
