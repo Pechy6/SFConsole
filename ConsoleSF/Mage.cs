@@ -25,8 +25,8 @@ public class Mage : Character
     /// </value>
     int MaxMana { get; set; }
 
-    public Mage(string name, int health, int attackDamage, int defense, int mana, int maxMana)
-        : base(name, health, attackDamage, defense)
+    public Mage(string name, int health, int attackDamage, int defense, int mana, int maxMana, MessageManager messageManager)
+        : base(name, health, attackDamage, defense, messageManager)
     {
         Mana = mana;
         MaxMana = maxMana;
@@ -40,7 +40,6 @@ public class Mage : Character
     /// <param name="target">The target character to attack.</param>
     public override void Attack(Character target)
     {
-        Mana += 10;
         if (Mana >= MaxMana)
         {
             int specialAttack = AttackDamage * 2;
@@ -61,7 +60,10 @@ public class Mage : Character
             target.Defend(specialAttack, true, true);
         }
         else
+        {
             base.Attack(target);
+            Mana += 10;
+        }
     }
 
     /// <summary>

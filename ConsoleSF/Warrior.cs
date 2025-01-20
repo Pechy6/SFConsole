@@ -2,15 +2,11 @@
 
 public class Warrior : Character
 {
-    int Shield { get; set; }
-    int Posture { get; set; }
-
-    public Warrior(string name, int health, int attackDamage, int defense
-    ) : base(name, health, attackDamage, defense)
+    public Warrior(string name, int health, int attackDamage, int defense, MessageManager messageManager
+    ) : base(name, health, attackDamage, defense, messageManager)
     {
-        // sem vlozim vnitrni logiku 
     }
-
+    
     public override void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
     {
         if (isMageSpecialAttack)
@@ -24,7 +20,6 @@ public class Warrior : Character
             damage = 0;
             base.Defend(damage, false, false);
             Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
-            return;
         }
         else
         {

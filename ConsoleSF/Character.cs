@@ -1,9 +1,7 @@
 ﻿namespace ConsoleSF;
 
-public class Character(string name, int health, int attackDamage, int defense)
+public class Character(string name, int health, int attackDamage, int defense, MessageManager messageManager)
 {
-    // public readonly MessageManager _messageManager = messageManager;
-    // string zprava = "";
 
     /// <summary>
     /// Gets or sets the name of the character.
@@ -14,7 +12,7 @@ public class Character(string name, int health, int attackDamage, int defense)
     /// Gets or sets the health of the character.
     /// Represents the character's current hit points or life.
     /// </summary>
-    protected int Health { get; set; } = health;
+    protected int Health { get; private set; } = health;
 
     /// <summary>
     /// Gets or sets the Maximum health
@@ -32,6 +30,9 @@ public class Character(string name, int health, int attackDamage, int defense)
     /// </summary>
     protected int Defense { get; set; } = defense;
 
+    public readonly MessageManager _messageManager = new ();
+    private string message = "";
+    
     /// <summary>
     /// Performs an attack on a target character, calculates damage based on attacker strength
     /// and random factors, and applies the damage to the target.
@@ -41,7 +42,8 @@ public class Character(string name, int health, int attackDamage, int defense)
     {
         int damage = NormalizeAttack();
         damage += RandomGenerator.GetRandomPosture();
-        Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
+        _messageManager.PrintMessageAndAddToList($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!\n");
+        // Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
         target.Defend(damage, false, true);
     }
 
@@ -73,6 +75,7 @@ public class Character(string name, int health, int attackDamage, int defense)
     protected void HandleDamageCalculation(bool isMageSpecialAttack, bool doubleProtection, int incomingDamage,
         int damageTaken, int defense)
     {
+        string zprava = "";
         if (isMageSpecialAttack)
         {
             SpecialAttack(incomingDamage);
@@ -86,13 +89,14 @@ public class Character(string name, int health, int attackDamage, int defense)
 
         if (damageTaken <= 0)
         {
-            Console.WriteLine($"Message about defend:\n{Name} block the attack!");
+            // Console.WriteLine($"Message about defend:\n{Name} block the attack!");
+            _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} block the attack!");
             return;
         }
 
-        Console.WriteLine(
-            $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
-
+        // Console.WriteLine(
+            // $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
+        _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
         if (!isAlive())
         {
             return;
@@ -111,7 +115,8 @@ public class Character(string name, int health, int attackDamage, int defense)
         if (Health <= 0)
         {
             Health = 0;
-            Console.WriteLine($" But that was too much for {Name} and he is already dead!");
+            _messageManager.PrintMessageAndAddToList($"\nBut that was too much for {Name} and he is already dead!");
+            // Console.WriteLine($" But that was too much for {Name} and he is already dead!");
         }
     }
     
@@ -172,8 +177,10 @@ public class Character(string name, int health, int attackDamage, int defense)
     protected void SpecialAttack(int incomingDamage)
     {
         Health -= incomingDamage;
-            Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
+        _messageManager.PrintMessageAndAddToList($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
+            // Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
+    
     
     public override string ToString()
     {
