@@ -1,6 +1,6 @@
 ﻿namespace ConsoleSF;
 
-public class Character(string name, int health, int attackDamage, int defense, MessageManager messageManager)
+public class Character(string name, int health, int attackDamage, int defense, MessageManager _messageManager)
 {
 
     /// <summary>
@@ -40,7 +40,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
     /// <param name="target">The target character to attack.</param>
     public virtual void Attack(Character target)
     {
-        int damage = NormalizeAttack();
+        int damage = BasicAttack();
         damage += RandomGenerator.GetRandomPosture();
         _messageManager.PrintMessageAndAddToList($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!\n");
         // Console.WriteLine($"Message about attack\n{Name} attacking {target.Name} for {damage} damage!");
@@ -52,14 +52,14 @@ public class Character(string name, int health, int attackDamage, int defense, M
     /// attribute and random factors, reduces the incoming damage, and adjusts health accordingly.
     /// </summary>
     /// <param name="damage">The amount of damage inflicted by the attacker.</param>
-    public virtual void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
+    public virtual void Defend(int damage, bool isMageSpecialAttack, bool protectionFromDoubleAttack)
     {
         int incomingDamage = damage;
         int defense = Defense + RandomGenerator.GetRandomPosture();
         int damageTaken = damage - defense;
 
         // specialni utok kteremu se nelze vyhnout a ignoruje kompletni ochranu 
-        HandleDamageCalculation(isMageSpecialAttack, doubleProtection, incomingDamage, damageTaken, defense);
+        HandleDamageCalculation(isMageSpecialAttack, protectionFromDoubleAttack, incomingDamage, damageTaken, defense);
     }
 
     /// <summary>
@@ -75,7 +75,6 @@ public class Character(string name, int health, int attackDamage, int defense, M
     protected void HandleDamageCalculation(bool isMageSpecialAttack, bool doubleProtection, int incomingDamage,
         int damageTaken, int defense)
     {
-        string zprava = "";
         if (isMageSpecialAttack)
         {
             SpecialAttack(incomingDamage);
@@ -90,13 +89,13 @@ public class Character(string name, int health, int attackDamage, int defense, M
         if (damageTaken <= 0)
         {
             // Console.WriteLine($"Message about defend:\n{Name} block the attack!");
-            _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} block the attack!");
+            _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} block the attack!\n");
             return;
         }
 
         // Console.WriteLine(
             // $"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
-        _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!");
+        _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} defending against {incomingDamage} damage but cover {defense} damage and taking {damageTaken} damage!\n");
         if (!isAlive())
         {
             return;
@@ -115,7 +114,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
         if (Health <= 0)
         {
             Health = 0;
-            _messageManager.PrintMessageAndAddToList($"\nBut that was too much for {Name} and he is already dead!");
+            _messageManager.PrintMessageAndAddToList($"\nBut that was too much for {Name} and he is already dead!\n");
             // Console.WriteLine($" But that was too much for {Name} and he is already dead!");
         }
     }
@@ -157,11 +156,11 @@ public class Character(string name, int health, int attackDamage, int defense, M
     }
 
     /// <summary>
-    /// Calculates and returns the normalized attack damage based on the character's attack damage,
-    /// potentially applying a critical attack bonus if a random condition is met.
+    /// Calculates the base attack damage for the character, determines if a critical hit occurs based
+    /// on a random factor, and returns the final damage value.
     /// </summary>
-    /// <returns>The normalized attack damage value.</returns>
-    protected int NormalizeAttack()
+    /// <returns>The calculated attack damage, including any critical bonus if applicable.</returns>
+    protected int BasicAttack()
     {
         int damage = AttackDamage;
         // pokud je cislo vyssi nez nula tak se vyvola kriticky attack s pridanym bonusem
@@ -177,7 +176,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
     protected void SpecialAttack(int incomingDamage)
     {
         Health -= incomingDamage;
-        _messageManager.PrintMessageAndAddToList($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
+        _messageManager.PrintMessageAndAddToList($"Message about Defense: \nThis kind of damage cant be blocked by {Name} and take {incomingDamage} damage!\n");
             // Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
     

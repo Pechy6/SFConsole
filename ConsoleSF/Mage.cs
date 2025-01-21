@@ -24,6 +24,7 @@ public class Mage : Character
     /// This value is fixed upon initialization and is used to constrain the Mana property.
     /// </value>
     int MaxMana { get; set; }
+    bool luckyShot = false;
 
     public Mage(string name, int health, int attackDamage, int defense, int mana, int maxMana, MessageManager messageManager)
         : base(name, health, attackDamage, defense, messageManager)
@@ -40,6 +41,7 @@ public class Mage : Character
     /// <param name="target">The target character to attack.</param>
     public override void Attack(Character target)
     {
+        string message = "";
         if (Mana >= MaxMana)
         {
             int specialAttack = AttackDamage * 2;
@@ -49,14 +51,18 @@ public class Mage : Character
                 specialAttack += AttackDamage / 3;
                 if (RandomGenerator.GetResetAttackAndBlockAttack() == 1)
                 {
-                    Console.WriteLine("But his attack was that powerful so he dont feel about lose any mana");
+                    luckyShot = true;
                     Mana = MaxMana;
                 }
                 else
                     Mana = 0;
             }
 
-            Console.WriteLine($"Message about attack:\n{Name} attacking with special attack for {specialAttack}");
+            message = $"Message about attack:\n{Name} attacking with special attack for {specialAttack}";
+            if (luckyShot)
+                message += "Lucky shot! My mana was reset !";
+            _messageManager.PrintMessageAndAddToList(message + "\n");
+            // Console.WriteLine($"Message about attack:\n{Name} attacking with special attack for {specialAttack}");
             target.Defend(specialAttack, true, true);
         }
         else

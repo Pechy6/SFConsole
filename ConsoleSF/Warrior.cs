@@ -7,7 +7,7 @@ public class Warrior : Character
     {
     }
     
-    public override void Defend(int damage, bool isMageSpecialAttack, bool doubleProtection)
+    public override void Defend(int damage, bool isMageSpecialAttack, bool protectionFromDoubleAttack)
     {
         if (isMageSpecialAttack)
         {
@@ -19,7 +19,8 @@ public class Warrior : Character
         {
             damage = 0;
             base.Defend(damage, false, false);
-            Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
+            _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} block all damage by shield!\n");
+            // Console.WriteLine($"Message about defend:\n{Name} block all damage by shield!");
         }
         else
         {
