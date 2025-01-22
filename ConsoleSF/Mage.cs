@@ -1,8 +1,17 @@
 ﻿namespace ConsoleSF;
 
-public class Mage : Character
+public class Mage(
+    string name,
+    int health,
+    int attackDamage,
+    int defense,
+    int mana,
+    int maxMana,
+    MessageManager messageManager)
+    : Character(name, health, attackDamage, defense, messageManager)
 {
-    
+    private Character _characterClass;
+
     /// <summary>
     /// Represents the current mana level of the Mage.
     /// Mana is consumed or regenerated based on the Mage's actions,
@@ -12,7 +21,7 @@ public class Mage : Character
     /// An integer representing the Mage's current mana level.
     /// Values range between 0 and MaxMana, inclusive.
     /// </value>
-    int Mana { get; set; }
+    int Mana { get; set; } = mana;
 
     /// <summary>
     /// Represents the maximum mana capacity of the Mage.
@@ -23,15 +32,11 @@ public class Mage : Character
     /// An integer representing the Mage's maximum mana.
     /// This value is fixed upon initialization and is used to constrain the Mana property.
     /// </value>
-    int MaxMana { get; set; }
+    int MaxMana { get; set; } = maxMana;
+
     bool luckyShot = false;
 
-    public Mage(string name, int health, int attackDamage, int defense, int mana, int maxMana, MessageManager messageManager)
-        : base(name, health, attackDamage, defense, messageManager)
-    {
-        Mana = mana;
-        MaxMana = maxMana;
-    }
+    public string ClassName { get; private set; } = "Mage";
 
     /// <summary>
     /// Performs an attack on a target character. Increases mana with each attack, and when the mage's mana
@@ -41,7 +46,6 @@ public class Mage : Character
     /// <param name="target">The target character to attack.</param>
     public override void Attack(Character target)
     {
-        string message = "";
         if (Mana >= MaxMana)
         {
             int specialAttack = AttackDamage * 2;
@@ -58,6 +62,7 @@ public class Mage : Character
                     Mana = 0;
             }
 
+            string message = "";
             message = $"Message about attack:\n{Name} attacking with special attack for {specialAttack}";
             if (luckyShot)
                 message += "Lucky shot! My mana was reset !";
@@ -92,5 +97,11 @@ public class Mage : Character
 
         bar += "]";
         return bar;
+    }
+
+    public override string ToString()
+    {
+        return string.Format(
+            $"Character description:\nClass name: Mage\nName:{Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nMana:{MaxMana}\nDescription: Mage have mana and can use it for special attacks. If mage is lucky he can reset his mana.\n");
     }
 }

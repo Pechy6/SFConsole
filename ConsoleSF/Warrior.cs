@@ -1,12 +1,10 @@
 ﻿namespace ConsoleSF;
 
-public class Warrior : Character
+public class Warrior(string name, int health, int attackDamage, int defense, MessageManager messageManager)
+    : Character(name, health, attackDamage, defense, messageManager)
 {
-    public Warrior(string name, int health, int attackDamage, int defense, MessageManager messageManager
-    ) : base(name, health, attackDamage, defense, messageManager)
-    {
-    }
-    
+    public string ClassName { get; set; } = "Warrior";
+
     public override void Defend(int damage, bool isMageSpecialAttack, bool protectionFromDoubleAttack)
     {
         if (isMageSpecialAttack)
@@ -26,5 +24,11 @@ public class Warrior : Character
         {
             base.Defend(damage, false, true);
         }
+    }
+
+    public override string ToString()
+    {
+        return string.Format(
+            $"Character description:\nClass name: Warrior\nName: {Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nDescription: Warrior have shield and can block attack with it. Dosen't work for special attacks.\n");
     }
 }

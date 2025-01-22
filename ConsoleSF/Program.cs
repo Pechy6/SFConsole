@@ -8,32 +8,8 @@ using System.Threading.Channels;
 using ConsoleSF;
 
 // inicializace 
-MessageManager sharedMessageManager = new MessageManager();
-Character warr = new Warrior("warr", 100, 20, 30, sharedMessageManager);
-Character archer = new Archer("Archer", 100, 25, 10, sharedMessageManager);
-Character mage = new Mage("Mage", 100, 35, 5, 100, 100, sharedMessageManager);
-
-// explicitni pretipovani 
-Mage mageClass = (Mage)mage;
-
-// hra 
-Console.WriteLine("Hello, Arena\n\n\n");
-while (archer.isAlive() && warr.isAlive())
-{
-    // archer.Attack(mage);
-    warr.Attack(mage);
-    Console.WriteLine(mage.HealthBar() + "\n");
-    mage.Attack(warr);
-    Console.WriteLine(warr.HealthBar() + "\n");
-    // Console.WriteLine((mageClass.ManaBar()) + "\n");
-}
-
-Console.WriteLine("\n");
-Console.WriteLine(archer);
-Console.WriteLine(archer.HealthBar() + "\n");
-Console.WriteLine(archer._messageManager.PrintRecordedMessages() + "\n");
-Console.WriteLine(warr);
-Console.WriteLine(warr.HealthBar() + "\n");
-// Console.WriteLine(mageClass.ManaBar() + "\n");
-Console.WriteLine(warr._messageManager.PrintRecordedMessages() + "\n");
-Console.WriteLine("\n\n\n");
+Character archer = new Archer("Adam", 100, 10, 10, new MessageManager());
+Character Mage = new Mage("Mage", 80, 10, 10, 80, 100, new MessageManager());
+CharacterSelector myCharacter = new CharacterSelector();
+Character me = myCharacter.ChooseYourCharacter();
+Console.WriteLine("\n\n" + archer + "\n" + Mage + "\n" + me);

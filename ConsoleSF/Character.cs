@@ -2,7 +2,7 @@
 
 public class Character(string name, int health, int attackDamage, int defense, MessageManager _messageManager)
 {
-
+    public string ClassName { get; private set; }
     /// <summary>
     /// Gets or sets the name of the character.
     /// </summary>
@@ -184,5 +184,10 @@ public class Character(string name, int health, int attackDamage, int defense, M
     public override string ToString()
     {
         return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Attack, Defense);
+    }
+
+    public void SetClassName(string className)
+    {
+        ClassName = className;
     }
 }

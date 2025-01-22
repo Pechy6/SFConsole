@@ -1,18 +1,18 @@
 ﻿namespace ConsoleSF;
 
-public class Archer : Character
-{
-    public Archer(string name, int health, int attackDamage, int defense, MessageManager messageManager) : base(name, health, 
-        attackDamage, 
+public class Archer(string name, int health, int attackDamage, int defense, MessageManager messageManager)
+    : Character(name, health,
+        attackDamage,
         defense,
         messageManager)
-    {
-    }
+{
+    public string ClassName { get; set; } = "Archer";
 
     public override void Attack(Character target)
     {
         int damage = BasicAttack();
-        _messageManager.PrintMessageAndAddToList($"Message about attack:\n{Name} attacking {target.Name} for {damage} damage!\n");
+        _messageManager.PrintMessageAndAddToList(
+            $"Message about attack:\n{Name} attacking {target.Name} for {damage} damage!\n");
         // Console.WriteLine($"{Name} attacking for {damage} damage!");
         target.Defend(damage, false, true);
     }
@@ -28,8 +28,15 @@ public class Archer : Character
         else
         {
             damageTaken = 0;
-            _messageManager.PrintMessageAndAddToList($"Message about defend:\n{Name} defending against {incomingDamage} damage but avoid attack so his health is not affected");
+            _messageManager.PrintMessageAndAddToList(
+                $"Message about defend:\n{Name} defending against {incomingDamage} damage but avoid attack so his health is not affected");
             // Console.WriteLine($"{Name} avoid attack so his health is not affected");
         }
+    }
+
+    public override string ToString()
+    {
+        return string.Format(
+            $"Character description:\nClass name: Archer\nName: {Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nDescription: Archer can avoid attacks but can't block special attacks. And for his deffense he cant use good posture. He is archer not Warrior!\n");
     }
 }
