@@ -180,11 +180,10 @@ public class Character(string name, int health, int attackDamage, int defense, M
             // Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
     
-    
-    public override string ToString()
-    {
-        return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Attack, Defense);
-    }
+    // public override string ToString()
+    // {
+    //     return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Attack, Defense);
+    // }
 
     public void SetClassName(string className)
     {

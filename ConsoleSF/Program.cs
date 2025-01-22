@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-// Implementace zpravy pres novou tridu a list
-// pridani trid Warrior*, Mage*, Archer* a Assasin
+// Uvodni nabidka = 1. zvolte si tridu, 2. Description trid, 3. Nahodny souboj 
 // priradit ridici tridu souboje at mame program.cs hezky cisty
 
 using System.Threading.Channels;
