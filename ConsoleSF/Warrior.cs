@@ -3,7 +3,7 @@
 public class Warrior(string name, int health, int attackDamage, int defense, MessageManager messageManager)
     : Character(name, health, attackDamage, defense, messageManager)
 {
-    public string ClassName { get; set; } = "Warrior";
+    public override string ClassName { get; protected set; } = "Warrior";
 
     public override void Defend(int damage, bool isMageSpecialAttack, bool protectionFromDoubleAttack)
     {

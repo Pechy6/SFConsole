@@ -2,7 +2,8 @@
 
 public class Character(string name, int health, int attackDamage, int defense, MessageManager _messageManager)
 {
-    public string ClassName { get; private set; }
+    public virtual string ClassName { get; protected set; } = "Unknown";
+
     /// <summary>
     /// Gets or sets the name of the character.
     /// </summary>
@@ -188,5 +189,10 @@ public class Character(string name, int health, int attackDamage, int defense, M
     public void SetClassName(string className)
     {
         ClassName = className;
+    }
+    
+    public string GetClassName()
+    {
+        return ClassName;
     }
 }

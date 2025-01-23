@@ -10,7 +10,6 @@ public class Mage(
     MessageManager messageManager)
     : Character(name, health, attackDamage, defense, messageManager)
 {
-    private Character _characterClass;
 
     /// <summary>
     /// Represents the current mana level of the Mage.
@@ -36,7 +35,7 @@ public class Mage(
 
     bool luckyShot = false;
 
-    public string ClassName { get; private set; } = "Mage";
+    public override string ClassName { get; protected set; } = "Mage";
 
     /// <summary>
     /// Performs an attack on a target character. Increases mana with each attack, and when the mage's mana

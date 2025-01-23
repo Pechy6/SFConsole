@@ -7,8 +7,14 @@ using System.Threading.Channels;
 using ConsoleSF;
 
 // inicializace 
+CharacterDescription characterDescription = new();
+
 Character archer = new Archer("Adam", 100, 10, 10, new MessageManager());
-Character Mage = new Mage("Mage", 80, 10, 10, 80, 100, new MessageManager());
-CharacterSelector myCharacter = new CharacterSelector();
-Character me = myCharacter.ChooseYourCharacter();
-Console.WriteLine("\n\n" + archer + "\n" + Mage + "\n" + me);
+Character mage = new Mage("Mage", 80, 10, 10, 80, 100, new MessageManager());
+Character warrior = new Warrior("Warrior", 125, 10, 10, new MessageManager());
+Console.WriteLine(characterDescription.GetCharacterDescription(mage.GetClassName()));
+// Console.WriteLine(characterDescription.GetCharacterDescription(archer.GetClassName()));
+// Console.WriteLine(characterDescription.GetCharacterDescription(warrior.GetClassName()));
+// CharacterSelector myCharacter = new CharacterSelector();
+// Character me = myCharacter.ChooseYourCharacter();
+// Console.WriteLine("\n\n" + archer + "\n" + Mage + "\n" + me);

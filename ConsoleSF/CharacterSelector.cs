@@ -4,9 +4,6 @@ namespace ConsoleSF;
 
 public class CharacterSelector
 {
-    // Character class name zaridit aby class name nebyla uknown ktera je definovana v Character.cs 
-
-
     private string name;
     private int characterChoice;
     Character yourCharacter;

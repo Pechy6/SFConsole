@@ -6,7 +6,7 @@ public class Archer(string name, int health, int attackDamage, int defense, Mess
         defense,
         messageManager)
 {
-    public string ClassName { get; set; } = "Archer";
+    public override string ClassName { get; protected set; } = "Archer";
 
     public override void Attack(Character target)
     {
