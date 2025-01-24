@@ -1,8 +1,8 @@
 ﻿namespace ConsoleSF;
 
-public class CharacterDescription
+public static class CharacterDescription
 {
-    private readonly Dictionary<string, string> descriptions = new()
+    private static readonly Dictionary<string, string> descriptions = new()
     {
         {
             "Warrior",
@@ -18,7 +18,7 @@ public class CharacterDescription
         }
     };
 
-    public string GetCharacterDescription(string characterClassName)
+    public static string GetCharacterDescription(string characterClassName)
     {
         if (string.IsNullOrEmpty(characterClassName))
         {
