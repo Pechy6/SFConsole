@@ -18,4 +18,9 @@ public static class RandomGenerator
     {
         return random.Next(0, 4);
     }
+
+    public static int GetRandomEnemy()
+    {
+        return random.Next(0, 3);
+    }
 }

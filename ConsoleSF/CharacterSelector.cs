@@ -14,8 +14,9 @@ public class CharacterSelector
     /// </summary>
     /// <returns>A Character object representing the user's chosen character type with initialized attributes.</returns>
     /// <exception cref="InvalidOperationException">Thrown if an unknown character type is encountered during selection.</exception>
-    public Character ChooseYourCharacter(Character YourCharacter)
+    public Character ChooseYourCharacter(Character yourCharacter)
     {
+        YourCharacter = yourCharacter;
         do
         {
             Console.WriteLine("Choose your character:\n");
@@ -34,28 +35,28 @@ public class CharacterSelector
                 case 1:
                     Console.Clear();
                     MakeValidName("Warrior");
-                    YourCharacter = new Warrior(name, 125, 20, 30, new MessageManager());
-                    YourCharacter.SetClassName("Warrior");
+                    yourCharacter = new Warrior(name, 125, 20, 30, new MessageManager());
+                    yourCharacter.SetClassName("Warrior");
                     break;
                 case 2:
                     Console.Clear();
                     MakeValidName("Mage");
-                    YourCharacter = new Mage(name, 80, 40, 5, 80, 100, new MessageManager());
-                    YourCharacter.SetClassName("Mage");
+                    yourCharacter = new Mage(name, 80, 40, 5, 80, 100, new MessageManager());
+                    yourCharacter.SetClassName("Mage");
                     break;
                 case 3:
                     Console.Clear();
                     MakeValidName("Archer");
-                    YourCharacter = new Archer(name, 100, 30, 10, new MessageManager());
-                    YourCharacter.SetClassName("Archer");
+                    yourCharacter = new Archer(name, 100, 30, 10, new MessageManager());
+                    yourCharacter.SetClassName("Archer");
                     break;
                 default:
                     throw new InvalidOperationException("Unknown character type.");
             }
         } while (characterChoice < 1 || characterChoice > 3);
 
-        Console.WriteLine($"You choose character: {YourCharacter.ClassName}\nYour name is: {YourCharacter.Name}");
-        return YourCharacter;
+        Console.WriteLine($"You choose character: {yourCharacter.ClassName}\nYour name is: {yourCharacter.Name}");
+        return yourCharacter;
     }
 
     /// <summary>
