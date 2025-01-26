@@ -1,74 +1,63 @@
 ﻿namespace ConsoleSF;
 
+
+// Vyresit problem s inicializaci enemy 
 public class Arena()
 {
-    Character myCharacter;
-    Character Enemy { get; set; }
-    private int enemyChoice;
+    private Character myCharacter;
+    private Character enemy;
     CharacterSelector characterSelector = new CharacterSelector();
+    private EnemyClass _enemyClass;
 
     public void Start()
     {
+        // introductin
         Console.WriteLine("Welcome to the game ConsoleSF\nPress enter to start");
-        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
-        {
-            Console.WriteLine("\"Invalid key! Please press Enter to continue...\"\n");
-        }
-
+        PressEnter();
+        
+        // Classes to choose
         Console.WriteLine("Classes to choose:\n");
         CharacterDescription.ClassesDescription();
+        
+        // Choose your character
         characterSelector.ChooseYourCharacter(myCharacter);
-    }
-
-    public Character ChooseYourEnemy(Character enemy)
-    {
-        Enemy = enemy;
-        do
+        Console.WriteLine("Continue with pressing enter");
+        PressEnter();
+        Console.Clear();
+        
+        // Sett enemy
+        Console.WriteLine("1. Random enemy class");
+        Console.WriteLine("2. Choose your enemy class");
+        int enemyChoice;
+        while (!int.TryParse(Console.ReadLine(), out enemyChoice))
         {
-            Console.WriteLine("Choose your enemy (wisely)\n");
-            Console.WriteLine("1. Warrior");
-            Console.WriteLine("2. Mage");
-            Console.WriteLine("3. Archer");
-            while (int.TryParse(Console.ReadLine(), out enemyChoice))
-                Console.WriteLine("Wrong input! Please try again. (1-3)");
+            Console.WriteLine("Wrong input! Please try again. (1-2)");
+        }
+
+        while (enemyChoice == 1 || enemyChoice == 2)
+        {
             if (enemyChoice == 1)
             {
-                enemy = new Warrior("Ork Dementator", 125, 20, 30, new MessageManager());
+                _enemyClass.GetEnemyCharacter(enemy);
             }
 
             if (enemyChoice == 2)
             {
-                enemy = new Mage("Dark Mage", 80, 40, 5, 80, 100, new MessageManager());
+                _enemyClass.ChooseYourEnemy(enemy);
             }
-
-            if (enemyChoice == 3)
-            {
-                enemy = new Archer("Dark Elf", 100, 30, 10, new MessageManager());
-            }
-        } while (enemyChoice < 1 || enemyChoice > 3);
-
-        return enemy;
+        }
     }
 
-    public Character GetEnemyCharacter(Character enemy)
+    /// <summary>
+    /// Waits for the user to press the Enter key before continuing execution.
+    /// If a different key is pressed, an error message will be displayed,
+    /// prompting the user to press the correct key.
+    /// </summary>
+    private void PressEnter()
     {
-        Enemy = enemy;
-        if (RandomGenerator.GetRandomEnemy() == 0)
+        while (Console.ReadKey(true).Key != ConsoleKey.Enter)
         {
-            enemy = new Warrior("Ork Dementator", 125, 20, 30, new MessageManager());
-            return enemy;
-        }
-
-        if (RandomGenerator.GetRandomEnemy() == 1)
-        {
-            enemy = new Mage("Dark Mage", 80, 40, 5, 80, 100, new MessageManager());
-            return enemy;
-        }
-
-        if (RandomGenerator.GetRandomEnemy() == 2)
-        {
-            enemy = new Archer("Dark Elf", 100, 30, 10, new MessageManager());
-            return enemy;
+            Console.WriteLine("\"Invalid key! Please press Enter to continue...\"\n");
         }
     }
 }
