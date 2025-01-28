@@ -1,15 +1,27 @@
 ﻿namespace ConsoleSF;
 
-
-// Vyresit problem s inicializaci enemy 
+// Vyresit problem s pristupem charakteru do boje 
 public class Arena()
 {
     private Character myCharacter;
-    private Character enemy;
+    private Character Enemy { get; }
     CharacterSelector characterSelector = new CharacterSelector();
-    private EnemyClass _enemyClass;
+    private EnemyClass _enemyClass = new EnemyClass();
 
     public void Start()
+    {
+        // Sett Your character
+        GetYourCharacter();
+
+        // Sett enemy
+        GetEnemy();
+        
+        // Fight (problem is here!!!) 
+        myCharacter.Attack(Enemy);
+        Enemy.Attack(myCharacter);
+    }
+
+    private void GetYourCharacter()
     {
         // introductin
         Console.WriteLine("Welcome to the game ConsoleSF\nPress enter to start");
@@ -24,28 +36,41 @@ public class Arena()
         Console.WriteLine("Continue with pressing enter");
         PressEnter();
         Console.Clear();
-        
-        // Sett enemy
-        Console.WriteLine("1. Random enemy class");
-        Console.WriteLine("2. Choose your enemy class");
-        int enemyChoice;
-        while (!int.TryParse(Console.ReadLine(), out enemyChoice))
-        {
-            Console.WriteLine("Wrong input! Please try again. (1-2)");
-        }
+    }
 
-        while (enemyChoice == 1 || enemyChoice == 2)
+    private void GetEnemy()
+    {
+        Console.WriteLine("1. Choose your enemy class");
+        Console.WriteLine("2. Random enemy class");
+        bool isCorrectChoice = false;
+        
+        do
         {
+            int enemyChoice;
+            while (!int.TryParse(Console.ReadLine(), out enemyChoice))
+            {
+                Console.WriteLine("Wrong input! Please try again. (1-2)");
+            }
+
             if (enemyChoice == 1)
             {
-                _enemyClass.GetEnemyCharacter(enemy);
+                isCorrectChoice = true;
+                _enemyClass.ChooseYourEnemy(Enemy);
             }
 
-            if (enemyChoice == 2)
+            else if (enemyChoice == 2)
             {
-                _enemyClass.ChooseYourEnemy(enemy);
+                isCorrectChoice = true;
+                _enemyClass.GetEnemyCharacter(Enemy);
             }
-        }
+            else
+            {
+                Console.WriteLine("Wrong input! Please try again. (1-2)");
+                isCorrectChoice = false;
+            }
+        } while (!isCorrectChoice);
+        PressEnter();
+        Console.Clear();
     }
 
     /// <summary>
