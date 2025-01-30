@@ -36,7 +36,6 @@ public class Archer(string name, int health, int attackDamage, int defense, Mess
 
     public override string ToString()
     {
-        return string.Format(
-            $"Character description:\nClass name: Archer\nName: {Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nDescription: Archer can avoid attacks but can't block special attacks. And for his deffense he cant use good posture. He is archer not Warrior!\n");
+        return string.Format($"Name: {Name}:\nHealth: {HealthBar()}");
     }
 }

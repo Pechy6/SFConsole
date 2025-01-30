@@ -2,12 +2,11 @@
 
 public class EnemyClass
 {
-    Character Enemy { get; set; }
     private int enemyChoice;
-    
-    public Character ChooseYourEnemy(Character enemy)
+
+    public Character ChooseYourEnemy()
     {
-        Enemy = enemy;
+        Character enemy = null;
         do
         {
             Console.WriteLine("Choose your enemy (wisely)\n");
@@ -42,27 +41,29 @@ public class EnemyClass
         return enemy;
     }
 
-    public Character GetEnemyCharacter(Character enemy)
+    public Character GetEnemyCharacter()
     {
-        Enemy = enemy;
-        if (RandomGenerator.GetRandomEnemy() == 0)
+        Character enemy;
+        int randomEnemyType = RandomGenerator.GetRandomEnemy();
+        
+        if (randomEnemyType == 0)
         {
             enemy = new Warrior("Ork Dementator", 125, 20, 30, new MessageManager());
-            Console.WriteLine(enemy);
+            Console.WriteLine($"Name: {enemy.Name}\nClass: {enemy.ClassName}\n");
         }
 
-        if (RandomGenerator.GetRandomEnemy() == 1)
+        else if (randomEnemyType == 1)
         {
             enemy = new Mage("Dark Mage", 80, 40, 5, 80, 100, new MessageManager());
-            Console.WriteLine(enemy);
+            Console.WriteLine($"Name: {enemy.Name}\nClass: {enemy.ClassName}\n");
         }
 
-        if (RandomGenerator.GetRandomEnemy() == 2)
+        else 
         {
             enemy = new Archer("Dark Elf", 100, 30, 10, new MessageManager());
-            Console.WriteLine(enemy);
-            
+            Console.WriteLine($"Name: {enemy.Name}\nClass: {enemy.ClassName}\n");
         }
+
         return enemy;
     }
 }

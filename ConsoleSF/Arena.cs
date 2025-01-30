@@ -1,23 +1,67 @@
-﻿namespace ConsoleSF;
+﻿using System.Threading.Channels;
+
+namespace ConsoleSF;
 
 // Vyresit problem s pristupem charakteru do boje 
 public class Arena()
 {
     private Character MyCharacter { get; set; }
     private Character Enemy { get; set; }
-    CharacterSelector characterSelector = new();
+    readonly CharacterSelector _characterSelector = new();
     private readonly EnemyClass _enemyClass = new();
 
     public void Start()
     {
-        // Sett Your character
-        GetYourCharacter();
+        Console.WriteLine("Welcome to Arena!");
+        Console.WriteLine("Press enter to continue...");
+        PressEnter();
+        Console.Clear();
 
-        // Sett enemy
-        GetEnemy();
+        bool validChoice;
+        do
+        {
+            Console.WriteLine("1. Start game");
+            Console.WriteLine("2. End game");
+            int choice;
+            while (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                Console.WriteLine("Wrong choice, please try again.");
+            }
+            switch (choice)
+            {
+                case 1:
+                    validChoice = true;
+                    // Sett Your character
+                    GetYourCharacter();
 
-        // Fight 
-        Fight(MyCharacter, Enemy);
+                    // Sett enemy
+                    GetEnemy();
+
+                    // Fight 
+                    Fight(MyCharacter, Enemy);
+                    Console.WriteLine("Press enter to continue...");
+                    PressEnter();
+                    Console.Clear();
+                    
+                    // zde dodelat kod 
+                    Console.WriteLine();
+                    
+                    break;
+                case 2:
+                    validChoice = true;
+                    Console.WriteLine("Thanks for playing!");
+                    Console.WriteLine("Press any key to exit");
+                    Console.ReadKey();
+                    break;
+                default:
+                    Console.WriteLine("Wrong choice. Please try again.");
+                    validChoice = false;
+                    break;
+                
+            }
+
+        } while (!validChoice);
+        
     }
 
     /// <summary>
@@ -37,7 +81,7 @@ public class Arena()
         CharacterDescription.ClassesDescription();
 
         // Choose your character
-        MyCharacter = characterSelector.ChooseYourCharacter(MyCharacter);
+        MyCharacter = _characterSelector.ChooseYourCharacter(MyCharacter);
         // characterSelector.ChooseYourCharacter(myCharacter);
         Console.WriteLine("Continue with pressing enter");
         PressEnter();
@@ -53,7 +97,7 @@ public class Arena()
     {
         Console.WriteLine("1. Choose your enemy class");
         Console.WriteLine("2. Random enemy class");
-        bool isCorrectChoice = false;
+        bool isCorrectChoice;
 
         do
         {
@@ -65,13 +109,13 @@ public class Arena()
 
             if (enemyChoice == 1)
             {
-                Enemy = _enemyClass.ChooseYourEnemy(Enemy);
+                Enemy = _enemyClass.ChooseYourEnemy();
                 isCorrectChoice = true;
             }
 
             else if (enemyChoice == 2)
             {
-                Enemy = _enemyClass.GetEnemyCharacter(Enemy);
+                Enemy = _enemyClass.GetEnemyCharacter();
                 isCorrectChoice = true;
             }
             else
@@ -122,10 +166,29 @@ public class Arena()
         Console.WriteLine("Press enter to start fight");
         do
         {
-            character1.Attack(character2);
-            character2.Attack(character1);
-            Thread.Sleep(1000);
-            Console.Clear();
+            if (character1.isAlive())
+            {
+                character1.Attack(character2);
+                Console.WriteLine($"{character2}");
+                Thread.Sleep(1000);
+                // Console.Clear();
+            }
+
+            if (character2.isAlive())
+            {
+                character2.Attack(character1);
+                Console.WriteLine($"{character1}");
+                Thread.Sleep(1000);
+                // Console.Clear();
+            }
         } while (character1.isAlive() && character2.isAlive());
+        if (character1.isAlive())
+        {
+            Console.WriteLine($"{character1.Name} won !");
+        }
+        else
+        {
+            Console.WriteLine($"{character2.Name} won !");
+        }
     }
 }

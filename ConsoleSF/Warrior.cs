@@ -28,7 +28,6 @@ public class Warrior(string name, int health, int attackDamage, int defense, Mes
 
     public override string ToString()
     {
-        return string.Format(
-            $"Character description:\nClass name: Warrior\nName: {Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nDescription: Warrior have shield and can block attack with it. Dosen't work for special attacks.\n");
+        return string.Format($"Name: {Name}:\nHealth: {HealthBar()}");
     }
 }

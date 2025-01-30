@@ -10,7 +10,6 @@ public class Mage(
     MessageManager messageManager)
     : Character(name, health, attackDamage, defense, messageManager)
 {
-
     /// <summary>
     /// Represents the current mana level of the Mage.
     /// Mana is consumed or regenerated based on the Mage's actions,
@@ -83,7 +82,7 @@ public class Mage(
     /// <returns>A string displaying the mana bar with filled segments proportional to the mage's current mana.</returns>
     public string ManaBar()
     {
-        string bar = $"{Name}: Mana [";
+        string bar = "Mana: [";
         int countOfBar = 5;
         if (Mana > 0)
         {
@@ -100,7 +99,6 @@ public class Mage(
 
     public override string ToString()
     {
-        return string.Format(
-            $"Character description:\nClass name: Mage\nName:{Name}\nHealth: {MaxHealth}\nAttack damage: {AttackDamage}\nDefense: {Defense}\nMana:{MaxMana}\nDescription: Mage have mana and can use it for special attacks. If mage is lucky he can reset his mana.\n");
+        return string.Format($"Name: {Name}:\nHealth: {HealthBar()}\nMana: {ManaBar()}\n");
     }
 }

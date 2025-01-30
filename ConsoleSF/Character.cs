@@ -136,7 +136,7 @@ public class Character(string name, int health, int attackDamage, int defense, M
     /// <returns>A string representing the character's health bar, including the visual health status or a "[DEAD]" message if the character is not alive.</returns>
     public string HealthBar()
     {
-        string bar = $"{Name}: Health [";
+        string bar = "Health: [";
         int countOfBar = 20;
         if (isAlive())
         {
@@ -180,11 +180,6 @@ public class Character(string name, int health, int attackDamage, int defense, M
         _messageManager.PrintMessageAndAddToList($"Message about Defense: \nThis kind of damage cant be blocked by {Name} and take {incomingDamage} damage!\n");
             // Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
-    
-    // public override string ToString()
-    // {
-    //     return string.Format("{0} - {1} HP, {2} Strength, {3} Defense", Name, Health, Attack, Defense);
-    // }
 
     public void SetClassName(string className)
     {
