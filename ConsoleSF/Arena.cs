@@ -3,10 +3,10 @@
 // Vyresit problem s pristupem charakteru do boje 
 public class Arena()
 {
-    private Character myCharacter;
-    private Character Enemy { get; }
-    CharacterSelector characterSelector = new CharacterSelector();
-    private EnemyClass _enemyClass = new EnemyClass();
+    private Character MyCharacter {get; set;}
+    private Character Enemy { get; set; }
+    CharacterSelector characterSelector = new();
+    private readonly EnemyClass _enemyClass = new();
 
     public void Start()
     {
@@ -16,11 +16,16 @@ public class Arena()
         // Sett enemy
         GetEnemy();
         
-        // Fight (problem is here!!!) 
-        myCharacter.Attack(Enemy);
-        Enemy.Attack(myCharacter);
+        // Fight 
+        Fight(MyCharacter, Enemy);
     }
 
+    /// <summary>
+    /// Initializes and sets up the player's character by allowing them to choose
+    /// from available character classes. Displays class descriptions to assist in the selection.
+    /// Prompts the user to confirm their choice and provides the option to proceed
+    /// after completing the setup.
+    /// </summary>
     private void GetYourCharacter()
     {
         // introductin
@@ -32,12 +37,18 @@ public class Arena()
         CharacterDescription.ClassesDescription();
         
         // Choose your character
-        characterSelector.ChooseYourCharacter(myCharacter);
+        MyCharacter = characterSelector.ChooseYourCharacter(MyCharacter);
+        // characterSelector.ChooseYourCharacter(myCharacter);
         Console.WriteLine("Continue with pressing enter");
         PressEnter();
         Console.Clear();
     }
 
+    /// <summary>
+    /// Sets up the enemy character for the player's battle. Allows the player to either choose an enemy class
+    /// manually or generate a random enemy class. Validates the player's input and ensures the setup process
+    /// is completed before proceeding.
+    /// </summary>
     private void GetEnemy()
     {
         Console.WriteLine("1. Choose your enemy class");
@@ -55,13 +66,13 @@ public class Arena()
             if (enemyChoice == 1)
             {
                 isCorrectChoice = true;
-                _enemyClass.ChooseYourEnemy(Enemy);
+                Enemy = _enemyClass.ChooseYourEnemy(Enemy);
             }
 
             else if (enemyChoice == 2)
             {
                 isCorrectChoice = true;
-                _enemyClass.GetEnemyCharacter(Enemy);
+                Enemy = _enemyClass.GetEnemyCharacter(Enemy);
             }
             else
             {
@@ -84,5 +95,38 @@ public class Arena()
         {
             Console.WriteLine("\"Invalid key! Please press Enter to continue...\"\n");
         }
+    }
+
+    private void Fight(Character character1, Character character2)
+    {
+        Console.WriteLine($"Fight between {character1.Name} and {character2.Name}");
+        Console.WriteLine("Press enter to start roll");
+        PressEnter();
+        Console.Clear();
+        
+        // Roll
+        if (RandomGenerator.GetFiftyFifty() == 0)
+        {
+            character1 = MyCharacter;
+            character2 = Enemy;
+            Console.WriteLine($"You starting fight");
+            
+        }
+        else
+        {
+            character1 = Enemy;
+            character2 = MyCharacter;
+            Console.WriteLine("Your opponent starting fight");
+        }
+
+        Console.WriteLine("Press enter to start fight");
+        do
+        {
+            character1.Attack(character2);
+            character2.Attack(character1);
+            Task.Delay(1500);
+            Console.Clear();
+        } while (character1.isAlive() && character2.isAlive());
+        
     }
 }

@@ -22,21 +22,21 @@ public class EnemyClass
                 Console.WriteLine(enemy);
             }
 
-           else if (enemyChoice == 2)
+            else if (enemyChoice == 2)
             {
                 enemy = new Mage("Dark Mage", 80, 40, 5, 80, 100, new MessageManager());
                 Console.WriteLine(enemy);
             }
 
-           else if (enemyChoice == 3)
+            else if (enemyChoice == 3)
             {
                 enemy = new Archer("Dark Elf", 100, 30, 10, new MessageManager());
                 Console.WriteLine(enemy);
             }
-           else
-           {
-               Console.WriteLine("Wrong input! Please try again. (1-3)\n");
-           }
+            else
+            {
+                Console.WriteLine("Wrong input! Please try again. (1-3)\n");
+            }
         } while (enemyChoice < 1 || enemyChoice > 3);
 
         return enemy;
