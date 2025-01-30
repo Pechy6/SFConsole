@@ -3,7 +3,7 @@
 // Vyresit problem s pristupem charakteru do boje 
 public class Arena()
 {
-    private Character MyCharacter {get; set;}
+    private Character MyCharacter { get; set; }
     private Character Enemy { get; set; }
     CharacterSelector characterSelector = new();
     private readonly EnemyClass _enemyClass = new();
@@ -15,7 +15,7 @@ public class Arena()
 
         // Sett enemy
         GetEnemy();
-        
+
         // Fight 
         Fight(MyCharacter, Enemy);
     }
@@ -31,11 +31,11 @@ public class Arena()
         // introductin
         Console.WriteLine("Welcome to the game ConsoleSF\nPress enter to start");
         PressEnter();
-        
+
         // Classes to choose
         Console.WriteLine("Classes to choose:\n");
         CharacterDescription.ClassesDescription();
-        
+
         // Choose your character
         MyCharacter = characterSelector.ChooseYourCharacter(MyCharacter);
         // characterSelector.ChooseYourCharacter(myCharacter);
@@ -54,7 +54,7 @@ public class Arena()
         Console.WriteLine("1. Choose your enemy class");
         Console.WriteLine("2. Random enemy class");
         bool isCorrectChoice = false;
-        
+
         do
         {
             int enemyChoice;
@@ -65,14 +65,14 @@ public class Arena()
 
             if (enemyChoice == 1)
             {
-                isCorrectChoice = true;
                 Enemy = _enemyClass.ChooseYourEnemy(Enemy);
+                isCorrectChoice = true;
             }
 
             else if (enemyChoice == 2)
             {
-                isCorrectChoice = true;
                 Enemy = _enemyClass.GetEnemyCharacter(Enemy);
+                isCorrectChoice = true;
             }
             else
             {
@@ -80,6 +80,7 @@ public class Arena()
                 isCorrectChoice = false;
             }
         } while (!isCorrectChoice);
+
         PressEnter();
         Console.Clear();
     }
@@ -103,14 +104,13 @@ public class Arena()
         Console.WriteLine("Press enter to start roll");
         PressEnter();
         Console.Clear();
-        
+
         // Roll
         if (RandomGenerator.GetFiftyFifty() == 0)
         {
             character1 = MyCharacter;
             character2 = Enemy;
             Console.WriteLine($"You starting fight");
-            
         }
         else
         {
@@ -124,9 +124,8 @@ public class Arena()
         {
             character1.Attack(character2);
             character2.Attack(character1);
-            Task.Delay(1500);
+            Thread.Sleep(1000);
             Console.Clear();
         } while (character1.isAlive() && character2.isAlive());
-        
     }
 }
