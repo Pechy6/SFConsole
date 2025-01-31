@@ -214,13 +214,7 @@ public class Arena()
                 // Console.Clear();
             }
         } while (character1.isAlive() && character2.isAlive());
-        if (character1.isAlive())
-        {
-            Console.WriteLine($"{character1.Name} won !");
-        }
-        else
-        {
-            Console.WriteLine($"{character2.Name} won !");
-        }
+
+        Console.WriteLine(character1.isAlive() ? $"{character1.Name} won !" : $"{character2.Name} won !");
     }
 }
