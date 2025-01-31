@@ -17,50 +17,82 @@ public class Arena()
         PressEnter();
         Console.Clear();
 
-        bool validChoice;
+        bool playAgain = true;
         do
         {
-            Console.WriteLine("1. Start game");
-            Console.WriteLine("2. End game");
-            int choice;
-            while (!int.TryParse(Console.ReadLine(), out choice))
+            bool validChoice;
+            do
             {
-                Console.WriteLine("Wrong choice, please try again.");
-            }
-            switch (choice)
-            {
-                case 1:
-                    validChoice = true;
-                    // Sett Your character
-                    GetYourCharacter();
+                Console.WriteLine("1. Start game");
+                Console.WriteLine("2. End game");
+                int choice;
+                while (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Wrong choice, please try again.");
+                }
+                switch (choice)
+                {
+                    case 1:
+                        validChoice = true;
+                        // Sett Your character
+                        GetYourCharacter();
 
-                    // Sett enemy
-                    GetEnemy();
+                        // Sett enemy
+                        GetEnemy();
 
-                    // Fight 
-                    Fight(MyCharacter, Enemy);
-                    Console.WriteLine("Press enter to continue...");
-                    PressEnter();
-                    Console.Clear();
-                    
-                    // zde dodelat kod 
-                    Console.WriteLine();
-                    
-                    break;
-                case 2:
-                    validChoice = true;
-                    Console.WriteLine("Thanks for playing!");
-                    Console.WriteLine("Press any key to exit");
-                    Console.ReadKey();
-                    break;
-                default:
-                    Console.WriteLine("Wrong choice. Please try again.");
-                    validChoice = false;
-                    break;
+                        // Fight 
+                        Fight(MyCharacter, Enemy);
+                        Console.WriteLine("Press enter to continue...");
+                        PressEnter();
+                        Console.Clear();
+                        
+                        // Play again
+                        Console.WriteLine("1. New game");
+                        Console.WriteLine("2. Write the previous fight");
+                        Console.WriteLine("3. Exit game");
+                        int playAgainChoice;
+                        while (!int.TryParse(Console.ReadLine(), out playAgainChoice))
+                            Console.WriteLine("Wrong input! Please try again. (1-2)");
+                        switch (playAgainChoice)
+                        {
+                            case 1:
+                                playAgain = true;
+                                MyCharacter = null;
+                                Enemy = null;
+                                break;
+                            case 2:
+                                Console.Clear();
+                                Console.WriteLine("Your messages:");
+                                Console.WriteLine(MyCharacter._messageManager.PrintRecordedMessages());
+                                Console.WriteLine();
+                                Console.WriteLine("Enemy messages:");
+                                Console.WriteLine(Enemy._messageManager.PrintRecordedMessages());
+                                break;
+                            case 3:
+                                playAgain = false;
+                                break;
+                            default:
+                                Console.WriteLine("Wrong choice. Please try again.");
+                                // validChoice = false; // zde dodelat kod
+                                break;
+                        }
+                        break;
+                    case 2:
+                        validChoice = true;
+                        playAgain = false;
+                        Console.WriteLine("Thanks for playing!");
+                        Console.WriteLine("Press any key to exit");
+                        Console.ReadKey();
+                        break;
+                    default:
+                        Console.WriteLine("Wrong choice. Please try again.");
+                        validChoice = false;
+                        break;
                 
-            }
+                }
 
-        } while (!validChoice);
+            } while (!validChoice);
+        } while (playAgain);
         
     }
 
