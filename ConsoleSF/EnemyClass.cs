@@ -4,6 +4,11 @@ public class EnemyClass
 {
     private int enemyChoice;
 
+    /// <summary>
+    /// Provides a mechanism for the user to select an enemy character from a predefined list of options.
+    /// The user can choose from Warrior, Mage, or Archer. Returns the selected enemy character.
+    /// </summary>
+    /// <returns>A Character object representing the chosen enemy.</returns>
     public Character ChooseYourEnemy()
     {
         Character enemy = null;
@@ -41,6 +46,11 @@ public class EnemyClass
         return enemy;
     }
 
+    /// <summary>
+    /// Generates and returns a random enemy character of type Warrior, Mage, or Archer,
+    /// each with predefined attributes. The selected enemy type is displayed to the console.
+    /// </summary>
+    /// <returns>A Character object representing the generated enemy.</returns>
     public Character GetEnemyCharacter()
     {
         Character enemy;

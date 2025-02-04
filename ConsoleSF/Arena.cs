@@ -10,91 +10,121 @@ public class Arena()
     readonly CharacterSelector _characterSelector = new();
     private readonly EnemyClass _enemyClass = new();
 
+    /// <summary>
+    /// Manages the main gameplay loop and user interaction for the arena combat system.
+    /// Displays the main menu with options to start a game or end the application.
+    /// Responsible for initializing the character setup, enemy setup,
+    /// and executing the combat sequence.
+    /// After completing a session, allows the user to choose whether to play again
+    /// or exit the application.
+    /// </summary>
     public void Start()
     {
         Console.WriteLine("Welcome to Arena!");
-        Console.WriteLine("Press enter to continue...");
+        Console.WriteLine("Press Enter to continue...");
         PressEnter();
         Console.Clear();
 
         bool playAgain = true;
+
         do
         {
-            bool validChoice;
+            bool validChoice = false;
+
+            // Hlavní menu
             do
             {
                 Console.WriteLine("1. Start game");
                 Console.WriteLine("2. End game");
+
                 int choice;
-                while (!int.TryParse(Console.ReadLine(), out choice))
+                if (!int.TryParse(Console.ReadLine(), out choice))
                 {
                     Console.WriteLine("Wrong choice, please try again.");
+                    continue; // Znovu na začátek menu
                 }
+
                 switch (choice)
                 {
                     case 1:
                         validChoice = true;
-                        // Sett Your character
+
+                        // Nastav hlavní postavu
                         GetYourCharacter();
 
-                        // Sett enemy
+                        // Nastav nepřítele
                         GetEnemy();
 
-                        // Fight 
+                        // Boj
                         Fight(MyCharacter, Enemy);
-                        Console.WriteLine("Press enter to continue...");
+                        Console.WriteLine("Press Enter to continue...");
                         PressEnter();
                         Console.Clear();
-                        
-                        // Play again
-                        Console.WriteLine("1. New game");
-                        Console.WriteLine("2. Write the previous fight");
-                        Console.WriteLine("3. Exit game");
-                        int playAgainChoice;
-                        while (!int.TryParse(Console.ReadLine(), out playAgainChoice))
-                            Console.WriteLine("Wrong input! Please try again. (1-2)");
-                        switch (playAgainChoice)
+
+                        // Nabídka "Play Again"
+                        bool playAgainMenu = true;
+                        while (playAgainMenu)
                         {
-                            case 1:
-                                playAgain = true;
-                                MyCharacter = null;
-                                Enemy = null;
-                                break;
-                            case 2:
-                                Console.Clear();
-                                Console.WriteLine("Your messages:");
-                                Console.WriteLine(MyCharacter._messageManager.PrintRecordedMessages());
-                                Console.WriteLine();
-                                Console.WriteLine("Enemy messages:");
-                                Console.WriteLine(Enemy._messageManager.PrintRecordedMessages());
-                                break;
-                            case 3:
-                                playAgain = false;
-                                break;
-                            default:
-                                Console.WriteLine("Wrong choice. Please try again.");
-                                // validChoice = false; // zde dodelat kod
-                                break;
+                            Console.WriteLine("1. New game");
+                            Console.WriteLine("2. Write the previous fight");
+                            Console.WriteLine("3. Exit game");
+
+                            int playAgainChoice;
+                            if (!int.TryParse(Console.ReadLine(), out playAgainChoice))
+                            {
+                                Console.WriteLine("Wrong input! Please try again. (1-3)");
+                                continue; // Znovu zobraz menu
+                            }
+
+                            switch (playAgainChoice)
+                            {
+                                case 1: // Nová hra
+                                    MyCharacter = null;
+                                    Enemy = null;
+                                    playAgainMenu = false; // Opuštění menu
+                                    break;
+
+                                case 2: // Výpis předchozího boje
+                                    Console.Clear();
+                                    Console.WriteLine("Your messages:");
+                                    Console.WriteLine(MyCharacter?._messageManager.PrintRecordedMessages() ??
+                                                      "No messages recorded.");
+                                    Console.WriteLine();
+                                    Console.WriteLine("Enemy messages:");
+                                    Console.WriteLine(Enemy?._messageManager.PrintRecordedMessages() ??
+                                                      "No messages recorded.");
+                                    break; // Zobraz menu znovu
+
+                                case 3: // Konec hry
+                                    Console.WriteLine("Exiting the game...");
+                                    playAgain = false;
+                                    playAgainMenu = false; // Zastav play again menu
+                                    break;
+
+                                default:
+                                    Console.WriteLine("Wrong choice. Please try again.");
+                                    break; // Špatný výběr - znovu do menu
+                            }
                         }
+
                         break;
-                    case 2:
-                        validChoice = true;
-                        playAgain = false;
+
+                    case 2: // Konec hry
                         Console.WriteLine("Thanks for playing!");
-                        Console.WriteLine("Press any key to exit");
+                        Console.WriteLine("Press any key to exit...");
                         Console.ReadKey();
+                        validChoice = true;
+                        playAgain = false; // Ukonči hlavní cyklus
                         break;
+
                     default:
                         Console.WriteLine("Wrong choice. Please try again.");
-                        validChoice = false;
-                        break;
-                
+                        break; // Špatná volba - znovu na začátek
                 }
-
             } while (!validChoice);
         } while (playAgain);
-        
     }
+
 
     /// <summary>
     /// Initializes and sets up the player's character by allowing them to choose
@@ -156,7 +186,7 @@ public class Arena()
                 isCorrectChoice = false;
             }
         } while (!isCorrectChoice);
-
+        Console.WriteLine("The enemy is set\nContinue with pressing enter");
         PressEnter();
         Console.Clear();
     }
@@ -174,6 +204,15 @@ public class Arena()
         }
     }
 
+    /// <summary>
+    /// Executes a combat sequence between two characters.
+    /// Allows users to observe a turn-based battle between the two participants,
+    /// where each character takes turns attacking the other until one is defeated.
+    /// The winner is determined when one of the characters' health points reaches zero.
+    /// The sequence includes setting up the turn order based on a random roll and displaying the battle progress.
+    /// </summary>
+    /// <param name="character1">The first character involved in the combat, representing one participant in the fight.</param>
+    /// <param name="character2">The second character involved in the combat, representing the opponent in the fight.</param>
     private void Fight(Character character1, Character character2)
     {
         Console.WriteLine($"Fight between {character1.Name} and {character2.Name}");
@@ -202,16 +241,16 @@ public class Arena()
             {
                 character1.Attack(character2);
                 Console.WriteLine($"{character2}");
-                Thread.Sleep(1000);
-                // Console.Clear();
+                Thread.Sleep(1500);
+                Console.Clear();
             }
 
             if (character2.isAlive())
             {
                 character2.Attack(character1);
                 Console.WriteLine($"{character1}");
-                Thread.Sleep(1000);
-                // Console.Clear();
+                Thread.Sleep(1500);
+                Console.Clear();
             }
         } while (character1.isAlive() && character2.isAlive());
 

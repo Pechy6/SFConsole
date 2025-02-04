@@ -145,7 +145,9 @@ public class Character(string name, int health, int attackDamage, int defense, M
             {
                 bar += "#";
             }
-
+            if (isAlive() && Health <= 1)
+                bar += "#";
+            
             bar += "]";
         }
         else
@@ -181,11 +183,19 @@ public class Character(string name, int health, int attackDamage, int defense, M
             // Console.WriteLine($"This kind of damage cant be blocked by {Name} and take {incomingDamage} damage!");
     }
 
+    /// <summary>
+    /// Sets the class name of the character to the specified value.
+    /// </summary>
+    /// <param name="className">The new class name to assign to the character.</param>
     public void SetClassName(string className)
     {
         ClassName = className;
     }
-    
+
+    /// <summary>
+    /// Retrieves the class name of the character.
+    /// </summary>
+    /// <returns>The name of the class the character belongs to.</returns>
     public string GetClassName()
     {
         return ClassName;
